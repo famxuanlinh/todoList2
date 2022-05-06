@@ -36,6 +36,18 @@ class App extends PureComponent { //PureComponent để tự check thay đổi r
     this.setState({ todoEditingId: id })
   }
 
+  // Khi nào blur thì nó lưu lại
+  onEditTodo = (todo = {}, index = -1) => { // Gửi todo  và index qua todo.jsx đở phải đi kiếm
+    if (index >= 0) { // Kiểm tra nếu index nằm trong list thì mình update
+      const { todoList: list } = this.state // Gắn biến todoList qua biến list 
+      list.splice(index, 1, todo) // Tại phần tử index đó mình thay phần từ đố (1) bằng todo mới
+      this.setState({
+        todoList: list,
+        todoEditingId: '' // Remove id
+      }) // mình set lại state lại
+    }
+  }
+
   render() {
     const { todosList } = this.state
     return (
@@ -45,6 +57,7 @@ class App extends PureComponent { //PureComponent để tự check thay đổi r
         todosList={todosList} 
         getTodoEditingId={this.getTodoEditingId}
         todoEditingId={this.todoEditingId}
+        onEditTodo={this.onEditTodo}
         />
         <Footer />
       </div>
